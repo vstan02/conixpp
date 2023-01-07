@@ -13,10 +13,10 @@ file(GLOB CONIXPP_SOURCES "${CONIXPP_SOURCE_DIR}/*.cpp")
 include_directories(${CONIXPP_PUBLIC_DIR})
 include_directories(${CONIXPP_SOURCE_DIR})
 
-add_library(conix++ ${CONIXPP_SOURCES})
+add_library(conixpp ${CONIXPP_SOURCES})
 
 add_executable(demo demo/main.cpp)
-target_link_libraries(demo conix++)
+target_link_libraries(demo conixpp)
 
 install(FILES ${CONIXPP_PUBLIC} DESTINATION include)
-install(TARGETS conix++ ARCHIVE DESTINATION lib)
+install(TARGETS conixpp ARCHIVE DESTINATION lib)
