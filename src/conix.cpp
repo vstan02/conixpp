@@ -28,8 +28,7 @@ extern cnx::cli::cli(cnx::app app)
 	: _context({ app, 0, nullptr })
 	, _details()
 	, _handlers()
-	, _max_info_size(0)
-{
+	, _max_info_size(0) {
 	add({
 		{ { "-h", "--help" }, "Display this information", help, static_cast<void*>(this) },
 		{ { "-v", "--version" }, "Display version information", version },
