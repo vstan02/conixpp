@@ -1,5 +1,4 @@
-/* ConixPP - Command line interface building library for C++
- * Copyright (C) 2021 Stan Vlad <vstan02@protonmail.com>
+/* Copyright (C) 2021 Stan Vlad <vstan02@protonmail.com>
  *
  * This file is part of Conix.
  *
@@ -89,12 +88,14 @@ namespace cnx {
   class cli {
     public:
       explicit cli(cnx::app app);
-      cli(std::string name, std::string version): cnx::cli(cnx::app { name, version }) {}
+
+			cli(const std::string& name, const std::string& version)
+				: cnx::cli(cnx::app { name, version }) {}
 
       int run(std::size_t argc, const char** argv);
 
-      cnx::cli& add(cnx::option option);
-      cnx::cli& add(std::vector<cnx::option> options);
+      cnx::cli& add(const cnx::option& option);
+      cnx::cli& add(const std::vector<cnx::option>& options);
 
       const std::set<cnx::info>& details() const;
       std::size_t max_info_size() const;
@@ -106,7 +107,7 @@ namespace cnx {
       std::size_t _max_info_size;
 
     private:
-      void handle(std::string option);
+      void handle(const std::string& option);
   };
 };
 

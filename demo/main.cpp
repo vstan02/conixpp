@@ -36,25 +36,25 @@ extern int main(int argc, const char** argv) {
 		.run(argc, argv);
 }
 
-static void index_option(const cnx::ctx* ctx, void* payload) {
+static void index_option(const cnx::ctx* ctx, [[maybe_unused]] void* payload) {
 	std::cout << "Welcome to " << ctx->app.name << "!\n";
 }
 
-static void about_option(const cnx::ctx* ctx, void* payload) {
-	std::cout << ctx->app.name << " is a simple app created with conix!\n"; 
+static void about_option(const cnx::ctx* ctx, [[maybe_unused]] void* payload) {
+	std::cout << ctx->app.name << " is a simple app created with conix!\n";
 }
 
-static void version_option(const cnx::ctx* ctx, void* payload) {
+static void version_option(const cnx::ctx* ctx, [[maybe_unused]] void* payload) {
 	std::cout << ctx->app.name << " -> " << ctx->app.version << '\n';
 }
 
-static void print_args_option(const cnx::ctx* ctx, void* payload) {
+static void print_args_option(const cnx::ctx* ctx, [[maybe_unused]] void* payload) {
 	std::cout << "Total arguments: " << ctx->argc << '\n';
 	for (std::size_t i = 0; i < ctx->argc; ++i) {
 		std::cout << i << " -> " << ctx->argv[i] << '\n';
 	}
 }
 
-static void not_found_option(const cnx::ctx* ctx, void* payload) {
+static void not_found_option(const cnx::ctx* ctx, [[maybe_unused]] void* payload) {
 	std::cout << ctx->app.name << ": Invalid option!\n";
 }

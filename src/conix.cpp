@@ -1,5 +1,4 @@
-/* ConixPP - Command line interface building library for C++
- * Copyright (C) 2021 Stan Vlad <vstan02@protonmail.com>
+/* Copyright (C) 2021 Stan Vlad <vstan02@protonmail.com>
  *
  * This file is part of Conix.
  *
@@ -17,6 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <algorithm>
 #include <cstdio>
 
 #include "conix.hpp"
@@ -25,7 +25,7 @@ static void help(const cnx::ctx* ctx, void* payload);
 static void version(const cnx::ctx* ctx, void* payload);
 
 extern cnx::cli::cli(cnx::app app)
-	: _context({ app, 0, nullptr })
+	: _context({ { std::move(app.name), std::move(app.version) }, 0, nullptr })
 	, _details()
 	, _handlers()
 	, _max_info_size(0) {
@@ -45,10 +45,10 @@ extern int cnx::cli::run(std::size_t argc, const char** argv) {
 	return 0;
 }
 
-extern cnx::cli& cnx::cli::add(cnx::option option) {
+extern cnx::cli& cnx::cli::add(const cnx::option& option) {
 	std::string name;
-	for (std::string& id: option.ids) {
-		_handlers[id] = option.handler;
+	for (const std::string& id: option.ids) {
+		_handlers.emplace(id, option.handler);
 		if (id != cnx::NOT_FOUND_ID) {
 			name += name.empty() ? id : (", " + id);
 		}
@@ -63,14 +63,14 @@ extern cnx::cli& cnx::cli::add(cnx::option option) {
 	return *this;
 }
 
-extern cnx::cli& cnx::cli::add(std::vector<cnx::option> options) {
-	for (cnx::option option: options) {
+extern cnx::cli& cnx::cli::add(const std::vector<cnx::option>& options) {
+	for (const cnx::option& option: options) {
 		add(option);
 	}
 	return *this;
 }
 
-extern void cnx::cli::handle(std::string option) {
+extern void cnx::cli::handle(const std::string& option) {
 	auto result = _handlers.find(option);
 	if (result != _handlers.end()) {
 		return result->second.target(&_context, result->second.payload);
@@ -99,6 +99,6 @@ static void help(const cnx::ctx* ctx, void* payload) {
 	}
 }
 
-static void version(const cnx::ctx* ctx, void* payload) {
+static void version(const cnx::ctx* ctx, [[maybe_unused]] void* payload) {
 	std::printf("%s v%s\n", ctx->app.name.c_str(), ctx->app.version.c_str());
 }
